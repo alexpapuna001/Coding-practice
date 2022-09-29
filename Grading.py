@@ -11,3 +11,4 @@ def gradingStudents(x):
     return final_grade
 
 # my solution to https://www.hackerrank.com/challenges/grading/problem
+#Difficulty: Easy
