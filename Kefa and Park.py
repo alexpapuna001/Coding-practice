@@ -9,27 +9,59 @@ for _ in range(n-1):
         tree[x].append(y)
 visited = []
 ans = 0
-def dfs(tree, visited, x, c):
+print(tree)
+def dfs(tree, visited, x, c, cmax):
     global ans
     if x not in visited:
-        if cat[x-1] == 1:
-            c += 1
-        else: 
-            c = 0
         visited.append(x)
-        for i in tree[x]:
-            if c>m:
+        if cmax > m:
+            return
+        if x in tree:
+            for i in tree[x]:
                 if i in tree:
-                    dfs(tree, visited, i, c)
+                    if cat[x-1] == 1:
+                        if c+1 > cmax:
+                            cmax = c+1
+                        dfs(tree, visited, i, c+1, cmax)
+                    else:
+                        dfs(tree, visited, i, 0, cmax)
+                            
                 else:
-                    if cat[i-1] == 1:
-                        c += 1
-                    else:                         
-                        c = 0
-                    if c<=m:
-                        ans += 1
+                    if cat[x-1] == 1 and cat[i-1] == 1:
+                        if cmax < c+2:
+                            if c+2 <= m:
+                                ans+=1
+                        else:
+                            if cmax <= m:
+                                ans += 1
+                    elif cat[x-1] == 0 and cat[i-1] == 1:
+                        if cmax < 1:
+                            if 1 <= m:
+                                ans+=1
+                        else:
+                            if cmax <= m:
+                                ans += 1
+                    elif cat[x-1] == 0 and cat[i-1] == 0:
+                        if cmax <= m:
+                            ans+=1
+                    elif cat[x-1] == 1 and cat[i-1] == 0:
+                        if cmax < c+1:
+                            if c+1 <= m:
+                                ans+=1
+                        else:
+                            if cmax <= m:
+                                ans+=1
+    else:
+        if sum(cat) <= m:
+            ans = 1
+        else:
+            ans = 0
+            
+                        
+                    
+                    
             
 
-dfs(tree, visited, 1, 0)
+dfs(tree, visited, 1, 0, 0)
 print(ans)
 
