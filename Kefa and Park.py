@@ -7,17 +7,29 @@ for _ in range(n-1):
         tree[x] = [y]
     else:
         tree[x].append(y)
-marked = [False] * 10
-cons = {}
-def dfs(dic, x):
-    if x in tree:
-        if cat(tree[x] - 1) == 1:
-            if tree[x] not in cons:
-                cons[tree[x]] = 1
-            else:
-                cons[tree[x]] += 1           #creates an entry into a dictionary which marks how many consequtive cats the neighbors have encountered 
-        marked[x] = True
+visited = []
+ans = 0
+def dfs(tree, visited, x, c):
+    global ans
+    if x not in visited:
+        if cat[x-1] == 1:
+            c += 1
+        else: 
+            c = 0
+        visited.append(x)
         for i in tree[x]:
-            if not marked[x]:
-                dfs(dic,x)
-                
+            if c>m:
+                if i in tree:
+                    dfs(tree, visited, i, c)
+                else:
+                    if cat[i-1] == 1:
+                        c += 1
+                    else:                         
+                        c = 0
+                    if c<=m:
+                        ans += 1
+            
+
+dfs(tree, visited, 1, 0)
+print(ans)
+
