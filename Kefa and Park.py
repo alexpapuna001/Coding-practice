@@ -7,17 +7,61 @@ for _ in range(n-1):
         tree[x] = [y]
     else:
         tree[x].append(y)
-marked = [False] * 10
-cons = {}
-def dfs(dic, x):
-    if x in tree:
-        if cat(tree[x] - 1) == 1:
-            if tree[x] not in cons:
-                cons[tree[x]] = 1
-            else:
-                cons[tree[x]] += 1           #creates an entry into a dictionary which marks how many consequtive cats the neighbors have encountered 
-        marked[x] = True
-        for i in tree[x]:
-            if not marked[x]:
-                dfs(dic,x)
-                
+visited = []
+ans = 0
+print(tree)
+def dfs(tree, visited, x, c, cmax):
+    global ans
+    if x not in visited:
+        visited.append(x)
+        if cmax > m:
+            return
+        if x in tree:
+            for i in tree[x]:
+                if i in tree:
+                    if cat[x-1] == 1:
+                        if c+1 > cmax:
+                            cmax = c+1
+                        dfs(tree, visited, i, c+1, cmax)
+                    else:
+                        dfs(tree, visited, i, 0, cmax)
+                            
+                else:
+                    if cat[x-1] == 1 and cat[i-1] == 1:
+                        if cmax < c+2:
+                            if c+2 <= m:
+                                ans+=1
+                        else:
+                            if cmax <= m:
+                                ans += 1
+                    elif cat[x-1] == 0 and cat[i-1] == 1:
+                        if cmax < 1:
+                            if 1 <= m:
+                                ans+=1
+                        else:
+                            if cmax <= m:
+                                ans += 1
+                    elif cat[x-1] == 0 and cat[i-1] == 0:
+                        if cmax <= m:
+                            ans+=1
+                    elif cat[x-1] == 1 and cat[i-1] == 0:
+                        if cmax < c+1:
+                            if c+1 <= m:
+                                ans+=1
+                        else:
+                            if cmax <= m:
+                                ans+=1
+    else:
+        if sum(cat) <= m:
+            ans = 1
+        else:
+            ans = 0
+            
+                        
+                    
+                    
+            
+
+dfs(tree, visited, 1, 0, 0)
+print(ans)
+
