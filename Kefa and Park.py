@@ -65,3 +65,4 @@ def dfs(tree, visited, x, c, cmax):
 dfs(tree, visited, 1, 0, 0)
 print(ans)
 
+#https://codeforces.com/problemset/problem/580/C
