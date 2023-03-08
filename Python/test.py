@@ -1,18 +1,29 @@
-def groupAnagrams(strs):
-        """
-        :type strs: List[str]
-        :rtype: List[List[str]]
-        """
-        ans = {}
-        for i in strs:
-            l = [0]*26
-            for j in i:
-                l[ord(j)-ord('a')] +=1
-            l = tuple(l)
-            if l not in ans:
-                ans[l] = [i]
-            else:
-                ans[l].append(i)      
-        return ans.values()
-                    
-print(groupAnagrams(["eat","bussin","tea","tan","ate","nat","bat"]))
+nums = [0,0,0,0]
+answers = []
+nums.sort()
+antiduplicate = {}
+count = 0
+for i in range(len(nums)-2):
+    count+=1
+    orp1 = i+1
+    p1 = i+1
+    p2 = len(nums)-1 
+    target = -nums[i]
+    while p1 < p2:
+        if nums[p1]+nums[p2] < target:
+            p1+=1
+        elif nums[p1]+nums[p2] > target:
+            p2-=1
+        elif nums[p1]+nums[p2] == target:
+            if tuple([nums[i],nums[p1],nums[p2]]) not in antiduplicate:
+                antiduplicate[tuple([nums[i],nums[p1],nums[p2]])] = 1
+                answers.append([nums[i],nums[p1],nums[p2]])
+            orp1 += 1
+            p1 += 1
+            p2 -= 1
+
+
+
+print(answers)
+
+    
